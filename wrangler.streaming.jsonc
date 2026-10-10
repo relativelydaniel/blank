@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "extern-stream",
+  "main": "./workers.ts",
+  "compatibility_date": "2026-10-06",
+  "r2_buckets": [
+    {
+      "binding": "MEDIA_VAULT",
+      "bucket_name": "extern-stream-media"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
