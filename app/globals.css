@@ -1,2 +1,117 @@
 @import "tailwindcss";
-@import "../design-system/global.css";
+@config "../design-system/tailwind.config.ts";
+
+@theme {
+  --color-accent-navy: var(--ds-accent-navy);
+  --color-accent-orange: var(--ds-accent-orange);
+  --color-accent-clay: var(--ds-accent-clay);
+  --color-ink: var(--ds-text-main);
+  --color-muted: var(--ds-text-muted);
+  --color-surface: var(--ds-bg-surface);
+  --color-border: var(--ds-border-color);
+  --font-heading: var(--ds-font-heading);
+  --font-body: var(--ds-font-body);
+  --radius-control: var(--ds-radius-control);
+  --radius-panel: var(--ds-radius-panel);
+}
+
+:root {
+  color-scheme: light;
+  --ds-bg-primary: #ffffff;
+  --ds-bg-surface: #f4f5f7;
+  --ds-text-main: #111315;
+  --ds-text-muted: #4b5563;
+  --ds-border-color: #e5e7eb;
+  --ds-accent-navy: #0f172a;
+  --ds-accent-orange: #e65c00;
+  --ds-accent-clay: #7b3e2b;
+  --ds-font-heading: "Playfair Display", Georgia, serif;
+  --ds-font-body: var(--font-poppins), system-ui, sans-serif;
+  --ds-radius-none: 0px;
+  --ds-radius-sm: 4px;
+  --ds-radius-md: 8px;
+  --ds-radius-lg: 12px;
+  --ds-radius-xl: 16px;
+  --ds-radius-pill: 9999px;
+  --ds-radius-control: var(--ds-radius-sm);
+  --ds-radius-panel: var(--ds-radius-lg);
+  --ds-space-page: 1.5rem;
+  --ds-space-section: 3rem;
+  --ds-space-control: 0.75rem;
+  --ds-motion-fast: 150ms;
+  --ds-motion-standard: 200ms;
+  --app-background: var(--ds-bg-primary);
+  --app-foreground: var(--ds-text-main);
+  --app-muted: var(--ds-text-muted);
+  --app-surface: var(--ds-bg-surface);
+  --app-border: var(--ds-border-color);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --ds-bg-primary: #0b0f17;
+  --ds-bg-surface: #111827;
+  --ds-text-main: #f9fafb;
+  --ds-text-muted: #9ca3af;
+  --ds-border-color: #1f2937;
+  --ds-accent-navy: #38bdf8;
+  --ds-accent-orange: #ff6b00;
+  --app-background: var(--ds-bg-primary);
+  --app-foreground: var(--ds-text-main);
+  --app-muted: var(--ds-text-muted);
+  --app-surface: var(--ds-bg-surface);
+  --app-border: var(--ds-border-color);
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--ds-accent-orange) 20%, transparent);
+  }
+}
+
+@utility text-app { color: var(--app-foreground); }
+@utility bg-app { background-color: var(--app-background); }
+@utility border-app { border-color: var(--app-border); }
+
+.btn-orange {
+  display: inline-block;
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-accent-orange);
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity var(--ds-motion-standard) ease, transform var(--ds-motion-standard) ease;
+}
+
+.btn-orange:hover,
+.btn-orange:focus-visible {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

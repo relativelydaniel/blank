@@ -1,24 +1,36 @@
-/** Typed StoreIt design tokens for places where CSS variables aren't available. */
+/** Typed references to the canonical Volcano tokens in app/globals.css. */
 export const designTokens = {
   color: {
-    navy: "#0F172A",
-    orange: "#E65C00",
-    clay: "#7B3E2B",
-    white: "#FFFFFF",
-    ink: "#111315",
-    surface: "#F4F5F7",
-    muted: "#4B5563",
-    border: "#E5E7EB",
-    darkBackground: "#0B0F17",
-    darkSurface: "#111827",
-    darkText: "#F9FAFB",
-    darkMuted: "#9CA3AF",
-    darkBorder: "#1F2937",
+    navy: "var(--ds-accent-navy)",
+    orange: "var(--ds-accent-orange)",
+    clay: "var(--ds-accent-clay)",
+    background: "var(--ds-bg-primary)",
+    surface: "var(--ds-bg-surface)",
+    ink: "var(--ds-text-main)",
+    muted: "var(--ds-text-muted)",
+    border: "var(--ds-border-color)",
   },
-  radius: { none: "0px", sm: "4px", md: "8px", lg: "12px", xl: "16px", pill: "9999px" },
-  spacing: { page: "1.5rem", section: "3rem", control: "0.75rem" },
-  typography: { heading: '"Playfair Display", Georgia, serif', body: "var(--font-poppins), system-ui, sans-serif" },
-  motion: { fast: "150ms", standard: "200ms" },
+  radius: {
+    none: "var(--ds-radius-none)",
+    sm: "var(--ds-radius-sm)",
+    md: "var(--ds-radius-md)",
+    lg: "var(--ds-radius-lg)",
+    xl: "var(--ds-radius-xl)",
+    pill: "var(--ds-radius-pill)",
+  },
+  spacing: {
+    page: "var(--ds-space-page)",
+    section: "var(--ds-space-section)",
+    control: "var(--ds-space-control)",
+  },
+  typography: {
+    heading: "var(--ds-font-heading)",
+    body: "var(--ds-font-body)",
+  },
+  motion: {
+    fast: "var(--ds-motion-fast)",
+    standard: "var(--ds-motion-standard)",
+  },
 } as const;
 
 export type DesignTokens = typeof designTokens;
