@@ -1,67 +1,127 @@
 @import "tailwindcss";
-@config "../tailwind.config.ts";
+@tailwind utilities;
 
 @layer utilities {
-  .center { @apply flex h-screen items-center justify-center gap-4 bg-background p-8 text-ink; }
+  .center {@apply flex h-screen items-center justify-center gap-4 bg-background p-8 text-ink;}
   .h1 { @apply text-[35px] leading-[42px] font-bold; }
   .text-brand { color: var(--color-accent-navy); }
   .bg-background { background-color: var(--app-background); }
   .text-ink { color: var(--color-ink); }
 }
 
-@theme inline {
-  --color-accent-navy: var(--accent-navy);
-  --color-accent-orange: var(--accent-orange);
-  --color-accent-clay: var(--accent-clay);
-  --color-ink: var(--app-foreground);
-  --color-muted: var(--app-muted);
-  --color-surface: var(--app-surface);
-  --color-border: var(--app-border);
+
+@theme {
+  --color-accent-navy: var(--ds-accent-navy);
+  --color-accent-orange: var(--ds-accent-orange);
+  --color-accent-clay: var(--ds-accent-clay);
+  --color-ink: var(--ds-text-main);
   --color-background: var(--app-background);
-  --color-foreground: var(--app-foreground);
-  --font-heading: var(--font-heading-family);
-  --font-body: var(--font-body-family);
-  --radius-control: var(--radius-control-value);
-  --radius-panel: var(--radius-panel-value);
+  --color-muted: var(--ds-text-muted);
+  --color-surface: var(--ds-bg-surface);
+  --color-border: var(--ds-border-color);
+  --font-heading: var(--ds-font-heading);
+  --font-body: var(--ds-font-body);
+  --radius-control: var(--ds-radius-control);
+  --radius-panel: var(--ds-radius-panel);
 }
 
 :root {
   color-scheme: light;
-  --accent-navy: #0f172a;
-  --accent-orange: #e65c00;
-  --accent-clay: #7b3e2b;
-  --app-background: #ffffff;
-  --app-foreground: #111315;
-  --app-muted: #4b5563;
-  --app-surface: #f4f5f7;
-  --app-border: #e5e7eb;
-  --font-heading-family: "Playfair Display", Georgia, serif;
-  --font-body-family: var(--font-poppins), system-ui, sans-serif;
-  --radius-control-value: 4px;
-  --radius-panel-value: 12px;
+  --ds-bg-primary: #ffffff;
+  --ds-bg-surface: #f4f5f7;
+  --ds-text-main: #111315;
+  --ds-text-muted: #4b5563;
+  --ds-border-color: #e5e7eb;
+  --ds-accent-navy: #0f172a;
+  --ds-accent-orange: #e65c00;
+  --ds-accent-clay: #7b3e2b;
+  --ds-font-heading: "Playfair Display", Georgia, serif;
+  --ds-font-body: var(--font-poppins), system-ui, sans-serif;
+  --ds-radius-none: 0px;
+  --ds-radius-sm: 4px;
+  --ds-radius-md: 8px;
+  --ds-radius-lg: 12px;
+  --ds-radius-xl: 16px;
+  --ds-radius-pill: 9999px;
+  --ds-radius-control: var(--ds-radius-sm);
+  --ds-radius-panel: var(--ds-radius-lg);
+  --ds-space-page: 1.5rem;
+  --ds-space-section: 3rem;
+  --ds-space-control: 0.75rem;
+  --ds-motion-fast: 150ms;
+  --ds-motion-standard: 200ms;
+  --app-background: var(--ds-bg-primary);
+  --app-foreground: var(--ds-text-main);
+  --app-muted: var(--ds-text-muted);
+  --app-surface: var(--ds-bg-surface);
+  --app-border: var(--ds-border-color);
 }
 
 [data-theme="dark"] {
   color-scheme: dark;
-  --app-background: #0b0f17;
-  --app-foreground: #f9fafb;
-  --app-muted: #9ca3af;
-  --app-surface: #111827;
-  --app-border: #1f2937;
-  --accent-navy: #38bdf8;
-  --accent-orange: #ff6b00;
+  --ds-bg-primary: #0b0f17;
+  --ds-bg-surface: #111827;
+  --ds-text-main: #f9fafb;
+  --ds-text-muted: #9ca3af;
+  --ds-border-color: #1f2937;
+  --ds-accent-navy: #38bdf8;
+  --ds-accent-orange: #ff6b00;
+  --app-background: var(--ds-bg-primary);
+  --app-foreground: var(--ds-text-main);
+  --app-muted: var(--ds-text-muted);
+  --app-surface: var(--ds-bg-surface);
+  --app-border: var(--ds-border-color);
 }
 
 @layer base {
-  * { box-sizing: border-box; }
-  html { min-height: 100%; background: var(--app-background); color: var(--app-foreground); }
-  body { min-height: 100vh; margin: 0; background: var(--app-background); color: var(--app-foreground); }
-  button, input, textarea, select { font: inherit; }
-  ::selection { background: #e65c0033; }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--ds-accent-orange) 20%, transparent);
+  }
 }
 
 @utility text-app { color: var(--app-foreground); }
-@utility text-muted { color: var(--app-muted); }
 @utility bg-app { background-color: var(--app-background); }
 @utility border-app { border-color: var(--app-border); }
 
+.btn-orange {
+  display: inline-block;
+  border-radius: var(--ds-radius-control);
+  background: var(--ds-accent-orange);
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity var(--ds-motion-standard) ease, transform var(--ds-motion-standard) ease;
+}
+
+.btn-orange:hover,
+.btn-orange:focus-visible {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

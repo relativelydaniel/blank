@@ -1,6 +1,6 @@
 export interface Env {
-  // Bind your R2 bucket in wrangler.toml under the binding name 'MEDIA_VAULT'
-  MEDIA_VAULT: R2Bucket;
+  // This binding name must match wrangler.jsonc; the bucket name is extern-stream-media.
+  extern_stream_media: R2Bucket;
   R2_ACCESS_KEY_ID: string;
   R2_SECRET_ACCESS_KEY: string;
   R2_BUCKET_NAME: string;
@@ -48,7 +48,7 @@ export default {
           const start = parseInt(parts[0], 10);
           
           // Get metadata first to check total file size
-          const head = await env.MEDIA_VAULT.head(key);
+          const head = await env.extern_stream_media.head(key);
           if (!head) return new Response("File not found", { status: 404, headers: corsHeaders });
           
           const totalSize = head.size;
@@ -56,7 +56,7 @@ export default {
           const chunksize = (end - start) + 1;
 
           // Fetch exact byte range from R2
-          const object = await env.MEDIA_VAULT.get(key, {
+          const object = await env.extern_stream_media.get(key, {
             range: { offset: start, length: chunksize }
           });
 
@@ -76,7 +76,7 @@ export default {
           });
         } else {
           // Fallback: Stream entire file if no range requested
-          const object = await env.MEDIA_VAULT.get(key);
+          const object = await env.extern_stream_media.get(key);
           if (!object || !object.body) {
             return new Response("File not found", { status: 404, headers: corsHeaders });
           }
