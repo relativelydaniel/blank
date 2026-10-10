@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+/*
+ * StoreIt / Extern theme for Tailwind CSS v4.
+ * Merge these declarations into your existing app/globals.css if needed.
+ */
+@theme {
+  --color-accent-navy: #0f172a;
+  --color-accent-orange: #e65c00;
+  --color-accent-clay: #7b3e2b;
+
+  --color-ink: #111315;
+  --color-muted: #4b5563;
+  --color-surface: #f4f5f7;
+  --color-border: #e5e7eb;
+
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: Roboto, system-ui, -apple-system, sans-serif;
+
+  --radius-control: 4px;
+  --radius-panel: 12px;
+}
+
+/* Semantic CSS variables make theme switching straightforward. */
+:root {
+  color-scheme: light;
+  --app-background: #ffffff;
+  --app-foreground: #111315;
+  --app-muted: #4b5563;
+  --app-surface: #f4f5f7;
+  --app-border: #e5e7eb;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --app-background: #0b0f17;
+  --app-foreground: #f9fafb;
+  --app-muted: #9ca3af;
+  --app-surface: #111827;
+  --app-border: #1f2937;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-height: 100%;
+    background: var(--app-background);
+    color: var(--app-foreground);
+    font-family: var(--font-body);
+  }
+
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  ::selection {
+    background: #e65c0033;
+  }
+}
+
+/* Semantic utility helpers for app UI. */
+@utility text-app {
+  color: var(--app-foreground);
+}
+
+@utility text-muted {
+  color: var(--app-muted);
+}
+
+@utility bg-app {
+  background-color: var(--app-background);
+}
+
+@utility border-app {
+  border-color: var(--app-border);
+}
