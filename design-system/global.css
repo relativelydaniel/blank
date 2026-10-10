@@ -1,0 +1,70 @@
+/* StoreIt theme tokens. Tailwind's entry point lives in app/globals.css. */
+@theme {
+  --color-accent-navy: #0f172a;
+  --color-accent-orange: #e65c00;
+  --color-accent-clay: #7b3e2b;
+  --color-ink: #111315;
+  --color-muted: #4b5563;
+  --color-surface: #f4f5f7;
+  --color-border: #e5e7eb;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: var(--font-poppins), system-ui, sans-serif;
+  --radius-control: 4px;
+  --radius-panel: 12px;
+}
+
+:root {
+  color-scheme: light;
+  --app-background: #ffffff;
+  --app-foreground: #111315;
+  --app-muted: #4b5563;
+  --app-surface: #f4f5f7;
+  --app-border: #e5e7eb;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --app-background: #0b0f17;
+  --app-foreground: #f9fafb;
+  --app-muted: #9ca3af;
+  --app-surface: #111827;
+  --app-border: #1f2937;
+}
+
+@layer base {
+  * { box-sizing: border-box; }
+  html {
+    min-height: 100%;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+  body {
+    min-height: 100vh;
+    margin: 0;
+    background: var(--app-background);
+    color: var(--app-foreground);
+  }
+  button, input, textarea, select { font: inherit; }
+  ::selection { background: #e65c0033; }
+}
+
+@utility text-app { color: var(--app-foreground); }
+@utility bg-app { background-color: var(--app-background); }
+@utility border-app { border-color: var(--app-border); }
+
+.btn-orange {
+  display: inline-block;
+  border-radius: var(--radius-control);
+  background: var(--color-accent-orange);
+  padding: 0.75rem 1.25rem;
+  color: white;
+  font-weight: 500;
+  text-decoration: none;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+.btn-orange:hover,
+.btn-orange:focus-visible {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

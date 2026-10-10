@@ -1,4 +1,4 @@
-import { Badge, Button, Card } from "@/src/design-system";
+import { Badge, Button, Card } from "@/design-system";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
         <header className="space-y-3">
           <Badge tone="accent">StoreIt design system</Badge>
           <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">Your storage, in one place.</h1>
-          <p className="max-w-2xl text-muted">A working canvas for the StoreIt interface. Edit the tokens and components in <code>src/design-system</code>.</p>
+          <p className="max-w-2xl text-muted">A working canvas for the StoreIt interface. Edit the tokens and components in <code>design-system</code>.</p>
         </header>
 
         <section aria-labelledby="components-heading" className="space-y-4">
