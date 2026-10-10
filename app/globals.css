@@ -1,26 +1,44 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
-@theme {
-  --color-accent-navy: #0f172a;
-  --color-accent-orange: #e65c00;
-  --color-accent-clay: #7b3e2b;
-  --color-ink: #111315;
-  --color-muted: #4b5563;
-  --color-surface: #f4f5f7;
-  --color-border: #e5e7eb;
-  --font-heading: "Playfair Display", Georgia, serif;
-  --font-body: var(--font-poppins), system-ui, sans-serif;
-  --radius-control: 4px;
-  --radius-panel: 12px;
+@layer utilities {
+  .center {@apply className="flex h-screen items-center justify-center gap-4 bg-background p-8 text-ink}
+  .h1 { @apply text-[35px] leading-[42px] font-bold; }
+  .text-brand { color: var(--color-accent-navy); }
+  .bg-background { background-color: var(--app-background); }
+  .text-ink { color: var(--color-ink); }
+}
+
+@theme inline {
+  --color-accent-navy: var(--accent-navy);
+  --color-accent-orange: var(--accent-orange);
+  --color-accent-clay: var(--accent-clay);
+  --color-ink: var(--app-foreground);
+  --color-muted: var(--app-muted);
+  --color-surface: var(--app-surface);
+  --color-border: var(--app-border);
+  --color-background: var(--app-background);
+  --color-foreground: var(--app-foreground);
+  --font-heading: var(--font-heading-family);
+  --font-body: var(--font-body-family);
+  --radius-control: var(--radius-control-value);
+  --radius-panel: var(--radius-panel-value);
 }
 
 :root {
   color-scheme: light;
+  --accent-navy: #0f172a;
+  --accent-orange: #e65c00;
+  --accent-clay: #7b3e2b;
   --app-background: #ffffff;
   --app-foreground: #111315;
   --app-muted: #4b5563;
   --app-surface: #f4f5f7;
   --app-border: #e5e7eb;
+  --font-heading-family: "Playfair Display", Georgia, serif;
+  --font-body-family: var(--font-poppins), system-ui, sans-serif;
+  --radius-control-value: 4px;
+  --radius-panel-value: 12px;
 }
 
 [data-theme="dark"] {
@@ -30,6 +48,8 @@
   --app-muted: #9ca3af;
   --app-surface: #111827;
   --app-border: #1f2937;
+  --accent-navy: #38bdf8;
+  --accent-orange: #ff6b00;
 }
 
 @layer base {
@@ -44,3 +64,4 @@
 @utility text-muted { color: var(--app-muted); }
 @utility bg-app { background-color: var(--app-background); }
 @utility border-app { border-color: var(--app-border); }
+
