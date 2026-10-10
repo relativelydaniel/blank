@@ -1,5 +1,3 @@
-import { Badge, Button, Card } from "@/src/design-system";
-
 export default function Home() {
   return (
     <div className = "center">   

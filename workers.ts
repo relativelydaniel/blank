@@ -14,8 +14,8 @@ const corsHeaders = {
   "Expose-Headers": "ETag, Content-Range, Accept-Ranges, Content-Length",
 };
 
-export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+const worker = {
+  async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const path = url.pathname;
 
@@ -94,11 +94,14 @@ export default {
       }
 
       return new Response("Endpoint not found", { status: 404, headers: corsHeaders });
-    } catch (err: any) {
-      return new Response(`Server Error: ${err.message}`, { status: 500, headers: corsHeaders });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      return new Response(`Server Error: ${message}`, { status: 500, headers: corsHeaders });
     }
   },
 };
+
+export default worker;
 
 // Helper stub for generating R2 compatible pre-signed PUT URLs
 async function generateR2PutPresignedUrl(env: Env, fileName: string): Promise<string> {
