@@ -7,8 +7,8 @@ import "./globals.css";
 
 const poppins = Poppins({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-popppins', 
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  variable: '--font-poppins',
 })
 
 export const metadata: Metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${poppins.variable} font-popppins antialiased`}
+      className={`${poppins.variable} font-body antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
