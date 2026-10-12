@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, PUT, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Range",
-  "Expose-Headers": "ETag, Content-Range, Accept-Ranges, Content-Length",
+  "Access-Control-Expose-Headers": "ETag, Content-Range, Accept-Ranges, Content-Length",
 };
 
 const worker = {
@@ -34,13 +34,43 @@ const worker = {
 
           const totalSize = head.size;
           const rangeMatch = /^bytes=(\d*)-(\d*)$/.exec(rangeHeader);
-          
-          if (!rangeMatch) {
-            return new Response("Range not satisfiable", { status: 416, headers: corsHeaders });
+
+          const rangeNotSatisfiable = () =>
+            new Response("Range not satisfiable", {
+              status: 416,
+              headers: { ...corsHeaders, "Content-Range": `bytes */${totalSize}` },
+            });
+
+          if (!rangeMatch || (!rangeMatch[1] && !rangeMatch[2])) {
+            return rangeNotSatisfiable();
           }
 
-          const start = rangeMatch[1] ? parseInt(rangeMatch[1], 10) : 0;
-          const end = rangeMatch[2] ? parseInt(rangeMatch[2], 10) : totalSize - 1;
+          let start: number;
+          let end: number;
+
+          if (!rangeMatch[1]) {
+            const suffixLength = Number(rangeMatch[2]);
+            if (!Number.isFinite(suffixLength) || !Number.isInteger(suffixLength) || suffixLength === 0) {
+              return rangeNotSatisfiable();
+            }
+            start = Math.max(totalSize - suffixLength, 0);
+            end = totalSize - 1;
+          } else {
+            start = Number(rangeMatch[1]);
+            const requestedEnd = rangeMatch[2] ? Number(rangeMatch[2]) : totalSize - 1;
+            if (
+              !Number.isFinite(start) ||
+              !Number.isInteger(start) ||
+              !Number.isFinite(requestedEnd) ||
+              !Number.isInteger(requestedEnd) ||
+              start >= totalSize ||
+              start > requestedEnd
+            ) {
+              return rangeNotSatisfiable();
+            }
+            end = Math.min(requestedEnd, totalSize - 1);
+          }
+
           const chunksize = (end - start) + 1;
 
           const object = await env.extern_stream_media.get(key, {
@@ -48,7 +78,7 @@ const worker = {
           });
 
           if (!object || !object.body) {
-            return new Response("Range not satisfiable", { status: 416, headers: corsHeaders });
+            return rangeNotSatisfiable();
           }
 
           return new Response(object.body, {
@@ -78,8 +108,8 @@ const worker = {
           });
         }
       } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : String(err);
-        return new Response(`Error: ${message}`, { status: 500, headers: corsHeaders });
+        console.error("Media fetch failed:", err);
+        return new Response("Internal error", { status: 500, headers: corsHeaders });
       }
     }
 
