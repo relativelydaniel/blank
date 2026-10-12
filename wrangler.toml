@@ -1,0 +1,7 @@
+name = "extern-stream-api"
+main = "src/worker.ts"
+compatibility_date = "2026-10-12"
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "extern-stream-media"
