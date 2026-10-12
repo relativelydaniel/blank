@@ -2,7 +2,7 @@
 export const designTokens = {
   color: {
     navy: "#0F172A",
-    orange: "#E65C00",
+    orange: "#B84400",
     clay: "#7B3E2B",
     white: "#FFFFFF",
     ink: "#111315",

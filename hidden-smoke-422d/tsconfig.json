@@ -13,8 +13,6 @@
 		"module": "es2022",
     /* Specify how TypeScript looks up a file from a given module specifier. */
 		"moduleResolution": "bundler",
-    /* Silence TypeScript 6 deprecation warnings for legacy Node resolution semantics. */
-		"ignoreDeprecations": "6.0",
     /* Enable importing .json files */
 		"resolveJsonModule": true,
 

@@ -1,12 +1,12 @@
 export interface Env {
-  extern_stream_media: R2Bucket;
+  STORAGE: R2Bucket;
 }
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, PUT, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Range",
-  "Access-Control-Expose-Headers": "ETag, Content-Range, Accept-Ranges, Content-Length",
+  "Expose-Headers": "ETag, Content-Range, Accept-Ranges, Content-Length",
 };
 
 const worker = {
@@ -29,7 +29,7 @@ const worker = {
 
       try {
         if (rangeHeader) {
-          const head = await env.extern_stream_media.head(key);
+          const head = await env.STORAGE.head(key);
           if (!head) return new Response("File not found", { status: 404, headers: corsHeaders });
 
           const totalSize = head.size;
@@ -41,7 +41,7 @@ const worker = {
               headers: { ...corsHeaders, "Content-Range": `bytes */${totalSize}` },
             });
 
-          if (!rangeMatch || (!rangeMatch[1] && !rangeMatch[2])) {
+          if (!rangeMatch || (!rangeMatch[1] && !rangeMatch[2]) || totalSize === 0) {
             return rangeNotSatisfiable();
           }
 
@@ -50,7 +50,7 @@ const worker = {
 
           if (!rangeMatch[1]) {
             const suffixLength = Number(rangeMatch[2]);
-            if (!Number.isFinite(suffixLength) || !Number.isInteger(suffixLength) || suffixLength === 0) {
+            if (!Number.isSafeInteger(suffixLength) || suffixLength === 0) {
               return rangeNotSatisfiable();
             }
             start = Math.max(totalSize - suffixLength, 0);
@@ -59,10 +59,8 @@ const worker = {
             start = Number(rangeMatch[1]);
             const requestedEnd = rangeMatch[2] ? Number(rangeMatch[2]) : totalSize - 1;
             if (
-              !Number.isFinite(start) ||
-              !Number.isInteger(start) ||
-              !Number.isFinite(requestedEnd) ||
-              !Number.isInteger(requestedEnd) ||
+              !Number.isSafeInteger(start) ||
+              !Number.isSafeInteger(requestedEnd) ||
               start >= totalSize ||
               start > requestedEnd
             ) {
@@ -71,10 +69,9 @@ const worker = {
             end = Math.min(requestedEnd, totalSize - 1);
           }
 
-          const chunksize = (end - start) + 1;
-
-          const object = await env.extern_stream_media.get(key, {
-            range: { offset: start, length: chunksize }
+          const chunksize = end - start + 1;
+          const object = await env.STORAGE.get(key, {
+            range: { offset: start, length: chunksize },
           });
 
           if (!object || !object.body) {
@@ -92,7 +89,7 @@ const worker = {
             },
           });
         } else {
-          const object = await env.extern_stream_media.get(key);
+          const object = await env.STORAGE.get(key);
           if (!object || !object.body) {
             return new Response("File not found", { status: 404, headers: corsHeaders });
           }
@@ -108,8 +105,8 @@ const worker = {
           });
         }
       } catch (err: unknown) {
-        console.error("Media fetch failed:", err);
-        return new Response("Internal error", { status: 500, headers: corsHeaders });
+        const message = err instanceof Error ? err.message : String(err);
+        return new Response(`Error: ${message}`, { status: 500, headers: corsHeaders });
       }
     }
 
