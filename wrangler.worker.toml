@@ -1,5 +1,5 @@
 name = "extern-stream-api"
-main = "src/worker.ts"
+main = "worker.ts"
 compatibility_date = "2026-10-12"
 
 [[r2_buckets]]
