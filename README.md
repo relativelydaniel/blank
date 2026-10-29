@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org) and Cloudflare project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-PENDING: Merging Enigma, HA NETWORK, and Blank
+PENDING: Merging / Extending HA NETWORK and Blank to create my portfolio website 
 
 ## Getting Started
 
